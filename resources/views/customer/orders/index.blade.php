@@ -52,7 +52,7 @@
         position: absolute;
         width: 300px;
         height: 300px;
-        background: linear-gradient(135deg, rgba(96,165,250,0.1), rgba(37,99,235,0.05));
+        background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(139,92,246,0.05));
         border-radius: 50%;
         top: -150px;
         right: -150px;
@@ -64,7 +64,7 @@
         position: absolute;
         width: 200px;
         height: 200px;
-        background: linear-gradient(135deg, rgba(96,165,250,0.08), rgba(37,99,235,0.04));
+        background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(139,92,246,0.04));
         border-radius: 50%;
         bottom: -100px;
         left: -100px;
@@ -90,7 +90,7 @@
     }
     
     .section-title i {
-        background: linear-gradient(135deg, #60a5fa, #2563eb);
+        background: linear-gradient(135deg, #a78bfa, #8b5cf6);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -121,7 +121,7 @@
         left: 0;
         right: 0;
         height: 2px;
-        background: linear-gradient(90deg, #2563eb, #60a5fa, #2563eb);
+        background: linear-gradient(90deg, #8b5cf6, #a78bfa, #8b5cf6);
     }
     
     .table-order tbody td {
@@ -203,7 +203,7 @@
     /* Total Amount */
     .total-amount {
         font-weight: 800;
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        background: linear-gradient(135deg, #8b5cf6, #a78bfa);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -213,7 +213,7 @@
     
     /* Button Detail - Tanpa efek ripple yang mengganggu */
     .btn-detail {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         border: none;
         border-radius: 14px;
         padding: 8px 22px;
@@ -227,7 +227,7 @@
     }
     
     .btn-detail:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
         color: white;
     }
     
@@ -246,18 +246,18 @@
         width: 140px;
         height: 140px;
         margin: 0 auto 1.5rem;
-        background: linear-gradient(135deg, #dbeafe, #eff6ff);
+        background: linear-gradient(135deg, #ede9fe, #f5f3ff);
         border-radius: 70px;
         display: flex;
         align-items: center;
         justify-content: center;
         animation: float 3s ease-in-out infinite;
-        box-shadow: 0 10px 30px rgba(37,99,235,0.1);
+        box-shadow: 0 10px 30px rgba(139,92,246,0.1);
     }
     
     .empty-icon i {
         font-size: 4rem;
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        background: linear-gradient(135deg, #8b5cf6, #a78bfa);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -280,7 +280,7 @@
     }
     
     .btn-shop {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         border: none;
         border-radius: 18px;
         padding: 14px 36px;
@@ -294,7 +294,7 @@
     }
     
     .btn-shop:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
         color: white;
     }
     
@@ -324,15 +324,15 @@
     }
     
     .filter-tab:hover {
-        border-color: #2563eb;
-        color: #2563eb;
+        border-color: #8b5cf6;
+        color: #8b5cf6;
     }
     
     .filter-tab.active {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         color: white;
         border-color: transparent;
-        box-shadow: 0 8px 20px -5px rgba(37,99,235,0.3);
+        box-shadow: 0 8px 20px -5px rgba(139,92,246,0.3);
     }
     
     /* Stats Cards */
@@ -357,7 +357,7 @@
     .stat-number {
         font-size: 2rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #2563eb, #3b82f6);
+        background: linear-gradient(135deg, #8b5cf6, #a78bfa);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;

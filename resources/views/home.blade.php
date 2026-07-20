@@ -57,7 +57,7 @@
         position: absolute;
         width: 300px;
         height: 300px;
-        background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(59, 130, 246, 0) 70%);
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, rgba(139, 92, 246, 0) 70%);
         border-radius: 50%;
         bottom: -100px;
         left: -80px;
@@ -96,7 +96,7 @@
     }
 
     .hero-title span {
-        background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+        background: linear-gradient(135deg, #7c3aed, #a78bfa);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
@@ -130,11 +130,11 @@
         width: 48px;
         height: 48px;
         border-radius: 28px;
-        background: #f1f5f9;
+        background: #f5f3ff;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #3b82f6;
+        color: #8b5cf6;
         font-size: 22px;
         margin-bottom: 14px;
     }
@@ -189,7 +189,7 @@
         border-radius: 32px;
         padding: 32px 24px;
         transition: 0.25s ease;
-        border: 1px solid #eef2ff;
+        border: 1px solid #f5f3ff;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
         height: 100%;
         position: relative;
@@ -198,7 +198,7 @@
     .category-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
-        border-color: #cbd5e1;
+        border-color: #c4b5fd;
     }
 
     .category-icon {
@@ -219,13 +219,15 @@
         padding: 8px 24px;
         font-weight: 500;
         font-size: 0.9rem;
-        background: #0f172a;
+        background: #8b5cf6;
         border: none;
+        color: #fff;
     }
 
     .category-btn:hover {
-        background: #8b5cf6;
+        background: #7c3aed;
         transform: translateY(-2px);
+        color: #fff;
     }
 
     /* PRODUCT CARD - GAYA BUKU */
@@ -233,8 +235,8 @@
         margin-top: 80px;
         background: #ffffff;
         padding: 70px 0;
-        border-top: 1px solid #eef2ff;
-        border-bottom: 1px solid #eef2ff;
+        border-top: 1px solid #f5f3ff;
+        border-bottom: 1px solid #f5f3ff;
     }
 
     .product-content-wrapper {
@@ -256,7 +258,7 @@
     .product-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 24px 36px -12px rgba(0, 0, 0, 0.12);
-        border-color: #cbd5e1;
+        border-color: #c4b5fd;
     }
 
     .product-image-wrapper {
@@ -299,7 +301,7 @@
 
     .feature-card {
         background: white;
-        border: 1px solid #edf2f9;
+        border: 1px solid #f5f3ff;
         border-radius: 32px;
         padding: 40px 28px;
         text-align: center;
@@ -310,7 +312,7 @@
     .feature-card:hover {
         transform: translateY(-6px);
         box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.08);
-        border-color: #cbd5e6;
+        border-color: #c4b5fd;
     }
 
     .feature-icon {
@@ -318,8 +320,8 @@
         height: 80px;
         margin: auto auto 24px;
         border-radius: 40px;
-        background: #f1f5f9;
-        color: #3b82f6;
+        background: #f5f3ff;
+        color: #8b5cf6;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -337,7 +339,7 @@
     .navbar-brand-custom {
         font-size: 1.5rem;
         font-weight: 800;
-        background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+        background: linear-gradient(135deg, #7c3aed, #a78bfa);
         background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
@@ -390,7 +392,7 @@
 
                 <div class="d-flex flex-wrap gap-3 mb-5">
                     <a href="{{ route('customer.shop.index') }}" class="btn btn-primary hero-btn"
-                       style="background: #0f172a; border: none;">
+                       style="background: #8b5cf6; border: none;">
                         <i class="bi bi-book-fill me-2"></i>
                         Mulai Membaca
                     </a>
@@ -482,7 +484,7 @@
                             <h4 class="fw-bold mb-2">{{ $category->name }}</h4>
                             <p class="text-muted small mb-4">Koleksi terbaik untuk menambah wawasan</p>
                             <a href="{{ route('customer.shop.index', ['category' => $category->id]) }}"
-                               class="btn btn-dark category-btn">
+                               class="btn category-btn" style="background:#8b5cf6;color:#fff;">
                                 Lihat Buku
                             </a>
                         </div>
@@ -533,7 +535,7 @@
                                 {{ $product->formatted_price }}
                             </div>
                             <a href="{{ route('customer.shop.show', $product) }}"
-                               class="btn btn-dark w-100 rounded-pill">
+                               class="btn w-100 rounded-pill" style="background:#8b5cf6;color:#fff;">
                                 Detail Buku
                             </a>
                         </div>

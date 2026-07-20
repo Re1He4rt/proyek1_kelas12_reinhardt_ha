@@ -13,7 +13,7 @@
     </div>
 
     <a href="{{ route('customer.addresses.create') }}"
-       class="btn btn-primary rounded-pill px-4">
+       class="btn rounded-pill px-4" style="background:#8b5cf6;color:#fff;">
 
         <i class="bi bi-plus-circle"></i>
         Tambah Alamat
@@ -62,7 +62,7 @@
                     <div class="d-flex gap-2">
 
                         <a href="{{ route('customer.addresses.edit', $address) }}"
-                           class="btn btn-outline-primary rounded-pill w-100">
+                           class="btn rounded-pill w-100" style="border:2px solid #8b5cf6;color:#8b5cf6;background:transparent;">
 
                             <i class="bi bi-pencil-square"></i>
                             Edit
@@ -112,7 +112,7 @@
                     </p>
 
                     <a href="{{ route('customer.addresses.create') }}"
-                       class="btn btn-primary rounded-pill px-4">
+                       class="btn rounded-pill px-4" style="background:#8b5cf6;color:#fff;">
 
                         Tambah Alamat
                     </a>

@@ -46,7 +46,7 @@
     
     .card-header-gradient i {
         margin-right: 8px;
-        color: #60a5fa;
+        color: #a78bfa;
     }
     
     /* Status Badge */
@@ -98,9 +98,9 @@
     }
     
     .timeline-icon.active {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         color: white;
-        box-shadow: 0 8px 20px rgba(37,99,235,.25);
+        box-shadow: 0 8px 20px rgba(139,92,246,.25);
     }
     
     .timeline-icon.completed {
@@ -158,7 +158,7 @@
     
     /* Button Styles - Tanpa efek gerakan */
     .btn-primary-custom {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         border: none;
         border-radius: 16px;
         padding: 12px 24px;
@@ -168,7 +168,7 @@
     }
     
     .btn-primary-custom:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
         color: white;
     }
     
@@ -183,8 +183,8 @@
     }
     
     .btn-outline-custom:hover {
-        border-color: #2563eb;
-        background: #2563eb;
+        border-color: #8b5cf6;
+        background: #8b5cf6;
         color: white;
     }
     
@@ -218,7 +218,7 @@
     
     .alert-info-custom {
         background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-        color: #1e40af;
+        color: #6d28d9;
     }
     
     .alert-success-custom {
@@ -259,7 +259,7 @@
     /* Qty Badge */
     .qty-badge {
         background: #eff6ff;
-        color: #2563eb;
+        color: #8b5cf6;
         padding: 6px 16px;
         border-radius: 999px;
         font-weight: 600;
@@ -322,7 +322,7 @@
                         <i class="bi bi-hourglass-split"></i> Menunggu Diproses
                     </span>
                 @elseif($order->status === 'processed')
-                    <span class="status-badge" style="background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white;">
+                    <span class="status-badge" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white;">
                         <i class="bi bi-arrow-repeat"></i> Sedang Diproses
                     </span>
                 @elseif($order->status === 'shipped')
@@ -384,7 +384,7 @@
                                             <span class="qty-badge">{{ $item->qty }}</span>
                                         </td>
                                         <td class="text-end text-muted">{{ $item->formatted_price }}</td>
-                                        <td class="text-end fw-bold text-primary">{{ $item->formatted_subtotal }}</td>
+                                        <td class="text-end fw-bold" style="color:#8b5cf6;">{{ $item->formatted_subtotal }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -409,8 +409,8 @@
                 <div class="card-body">
                     <div class="address-card">
                         <div class="d-flex align-items-start gap-3">
-                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
-                                <i class="bi bi-house-door fs-4" style="color: #2563eb;"></i>
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ede9fe, #e0d4fc); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+                                <i class="bi bi-house-door fs-4" style="color: #8b5cf6;"></i>
                             </div>
                             <div class="flex-grow-1">
                                 <h6 class="mb-2 fw-bold">{{ $order->shippingAddress->recipient_name }}</h6>

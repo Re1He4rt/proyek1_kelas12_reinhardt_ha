@@ -128,12 +128,6 @@ class OrderService
             // ========================================
             $cart->cartItems()->delete();
 
-            // ========================================
-            // STEP 6: Generate Midtrans Snap token
-            // ========================================
-            $snapToken = $this->midtransService->generateSnapToken($order);
-            $order->update(['snap_token' => $snapToken]);
-
             return $order;
         });
     }

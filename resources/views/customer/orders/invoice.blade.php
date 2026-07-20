@@ -65,14 +65,14 @@
                         <tfoot>
                             <tr>
                                 <td colspan="3" class="text-end fw-bold">Total:</td>
-                                <td class="text-end fw-bold text-primary">{{ $order->formatted_total }}</td>
+                                <td class="text-end fw-bold" style="color:#8b5cf6;">{{ $order->formatted_total }}</td>
                             </tr>
                         </tfoot>
                     </table>
 
                     <div class="text-center mt-4">
                         <p class="text-muted small">Terima kasih telah berbelanja di MediaBook</p>
-                        <button onclick="window.print()" class="btn btn-primary rounded-pill px-4">
+                        <button onclick="window.print()" class="btn rounded-pill px-4" style="background:#8b5cf6;color:#fff;">
                             <i class="bi bi-printer me-1"></i> Cetak Invoice
                         </button>
                     </div>

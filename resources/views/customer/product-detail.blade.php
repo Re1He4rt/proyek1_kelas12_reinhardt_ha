@@ -28,7 +28,19 @@
     .price{
         font-size:2rem;
         font-weight:800;
-        color:#2563eb;
+        color:#8b5cf6;
+    }
+
+    .price-total{
+        font-size:1.5rem;
+        font-weight:800;
+        color:#7c3aed;
+        transition: all 0.3s ease;
+    }
+
+    .price-total.animating{
+        transform: scale(1.05);
+        color:#6d28d9;
     }
 
     .stock-badge{
@@ -39,13 +51,69 @@
     }
 
     .qty-box{
-        width:120px;
+        display:flex;
+        align-items:center;
+        gap:0;
+        border:2px solid #e5e7eb;
+        border-radius:16px;
+        overflow:hidden;
+        background:#fff;
+    }
+
+    .qty-btn{
+        width:48px;
+        height:55px;
+        border:none;
+        background:#f3f4f6;
+        color:#374151;
+        font-size:1.3rem;
+        font-weight:700;
+        cursor:pointer;
+        transition:all .2s;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .qty-btn:hover{
+        background:#8b5cf6;
+        color:#fff;
+    }
+
+    .qty-input{
+        width:60px;
+        height:55px;
+        border:none;
+        border-left:1px solid #e5e7eb;
+        border-right:1px solid #e5e7eb;
+        text-align:center;
+        font-size:1.1rem;
+        font-weight:700;
+        outline:none;
+        background:#fff;
     }
 
     .btn-cart{
         height:55px;
         border-radius:16px;
         font-weight:700;
+        background:#8b5cf6;
+        border:none;
+        color:#fff;
+        transition:all .25s;
+    }
+
+    .btn-cart:hover{
+        background:#7c3aed;
+        transform:translateY(-2px);
+        box-shadow:0 8px 20px rgba(139,92,246,.3);
+        color:#fff;
+    }
+
+    .btn-cart:disabled{
+        opacity:.6;
+        transform:none;
+        box-shadow:none;
     }
 
     .related-card{
@@ -68,7 +136,39 @@
         padding:20px;
     }
 
+    .subtotal-label{
+        background:linear-gradient(135deg, #f5f3ff, #ede9fe);
+        border-radius:16px;
+        padding:16px 20px;
+        margin-top:16px;
+        border:1px solid #ddd6fe;
+    }
+
+    .toast-msg{
+        position:fixed;
+        top:90px;
+        right:24px;
+        z-index:99999;
+        padding:14px 24px;
+        border-radius:14px;
+        font-weight:600;
+        color:#fff;
+        box-shadow:0 10px 30px rgba(0,0,0,.15);
+        transform:translateX(120%);
+        transition:transform .4s cubic-bezier(.68,-.55,.27,1.55);
+    }
+
+    .toast-msg.show{
+        transform:translateX(0);
+    }
+
+    .toast-msg.success{ background:#10b981; }
+    .toast-msg.error{ background:#ef4444; }
+
 </style>
+
+<!-- TOAST -->
+<div class="toast-msg" id="toastMsg"></div>
 
 <div class="container py-4">
 
@@ -102,7 +202,7 @@
                 <div class="p-4 p-lg-5">
 
                     <!-- CATEGORY -->
-                    <span class="badge bg-primary rounded-pill px-3 py-2 mb-3">
+                    <span class="badge rounded-pill px-3 py-2 mb-3" style="background:#8b5cf6;color:#fff;">
                         {{ $product->category->name }}
                     </span>
 
@@ -112,16 +212,25 @@
                     </h1>
 
                     <!-- PRICE -->
-                    <div class="price mb-4">
+                    <div class="price mb-2" id="basePrice">
                         {{ $product->formatted_price }}
                     </div>
 
+                    <!-- SUBTOTAL -->
+                    <div class="subtotal-label" id="subtotalBox">
+                        <small class="text-muted">Total Harga</small>
+                        <div class="price-total" id="totalPrice">
+                            {{ $product->formatted_price }}
+                        </div>
+                    </div>
+
                     <!-- STOCK -->
-                    <div class="mb-4">
+                    <div class="my-4">
 
                         @if($product->stock > 0)
 
                             <span class="badge bg-success stock-badge">
+                                <i class="bi bi-check-circle me-1"></i>
                                 Stock tersedia : {{ $product->stock }}
                             </span>
 
@@ -152,7 +261,8 @@
                     @if($product->stock > 0)
 
                         <form action="{{ route('customer.cart.store') }}"
-                              method="POST">
+                              method="POST"
+                              id="addToCartForm">
 
                             @csrf
 
@@ -165,18 +275,29 @@
                                 <!-- QTY -->
                                 <div class="qty-box">
 
+                                    <button type="button" class="qty-btn" id="qtyMinus">
+                                        <i class="bi bi-dash"></i>
+                                    </button>
+
                                     <input type="number"
                                            name="qty"
+                                           id="qtyInput"
                                            value="1"
                                            min="1"
                                            max="{{ $product->stock }}"
-                                           class="form-control form-control-lg">
+                                           class="qty-input"
+                                           readonly>
+
+                                    <button type="button" class="qty-btn" id="qtyPlus">
+                                        <i class="bi bi-plus"></i>
+                                    </button>
 
                                 </div>
 
                                 <!-- BUTTON -->
                                 <button type="submit"
-                                        class="btn btn-primary btn-cart px-4">
+                                        class="btn btn-cart px-4 flex-grow-1"
+                                        id="addToCartBtn">
 
                                     <i class="bi bi-cart-plus-fill me-2"></i>
                                     Tambah ke Keranjang
@@ -253,12 +374,12 @@
                                 {{ $item->name }}
                             </h6>
 
-                            <div class="text-primary fw-bold mb-3">
+                            <div class="fw-bold mb-3" style="color:#8b5cf6;">
                                 {{ $item->formatted_price }}
                             </div>
 
                             <a href="{{ route('customer.shop.show', $item) }}"
-                               class="btn btn-dark w-100 rounded-pill">
+                               class="btn w-100 rounded-pill" style="background:#0f172a;color:#fff;">
 
                                 View Detail
 
@@ -278,4 +399,101 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+(function(){
+    const basePrice = {{ $product->price }};
+    const maxStock = {{ $product->stock }};
+    const productId = {{ $product->id }};
+
+    const qtyInput = document.getElementById('qtyInput');
+    const qtyMinus = document.getElementById('qtyMinus');
+    const qtyPlus = document.getElementById('qtyPlus');
+    const totalPrice = document.getElementById('totalPrice');
+    const addToCartForm = document.getElementById('addToCartForm');
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const toast = document.getElementById('toastMsg');
+
+    function formatRupiah(num){
+        return 'Rp ' + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function updatePrice(){
+        const qty = parseInt(qtyInput.value) || 1;
+        const total = basePrice * qty;
+        totalPrice.textContent = formatRupiah(total);
+        totalPrice.classList.add('animating');
+        setTimeout(() => totalPrice.classList.remove('animating'), 300);
+    }
+
+    function showToast(msg, type){
+        toast.textContent = msg;
+        toast.className = 'toast-msg ' + type + ' show';
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    qtyMinus.addEventListener('click', function(){
+        let val = parseInt(qtyInput.value) || 1;
+        if(val > 1){
+            qtyInput.value = val - 1;
+            updatePrice();
+        }
+    });
+
+    qtyPlus.addEventListener('click', function(){
+        let val = parseInt(qtyInput.value) || 1;
+        if(val < maxStock){
+            qtyInput.value = val + 1;
+            updatePrice();
+        }
+    });
+
+    qtyInput.addEventListener('input', function(){
+        let val = parseInt(this.value);
+        if(isNaN(val) || val < 1) val = 1;
+        if(val > maxStock) val = maxStock;
+        this.value = val;
+        updatePrice();
+    });
+
+    addToCartForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        const qty = parseInt(qtyInput.value) || 1;
+        const token = document.querySelector('meta[name="csrf-token"]')?.content
+                   || document.querySelector('input[name="_token"]').value;
+
+        addToCartBtn.disabled = true;
+        addToCartBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menambahkan...';
+
+        fetch('{{ route("customer.cart.store") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': token,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: 'product_id=' + productId + '&qty=' + qty
+        })
+        .then(res => {
+            if(res.redirected){
+                showToast('Produk ditambahkan ke keranjang!', 'success');
+                setTimeout(() => window.location.reload(), 1500);
+                return;
+            }
+            return res.text();
+        })
+        .then(() => {})
+        .catch(err => {
+            showToast('Gagal menambahkan ke keranjang', 'error');
+        })
+        .finally(() => {
+            addToCartBtn.disabled = false;
+            addToCartBtn.innerHTML = '<i class="bi bi-cart-plus-fill me-2"></i>Tambah ke Keranjang';
+        });
+    });
+
+})();
+</script>
 @endsection

@@ -36,7 +36,7 @@
     }
 
     .snap-btn {
-        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        background: linear-gradient(135deg, #8b5cf6, #7c3aed);
         border: none;
         border-radius: 16px;
         padding: 16px 32px;
@@ -48,9 +48,9 @@
     }
 
     .snap-btn:hover {
-        background: linear-gradient(135deg, #1d4ed8, #1e40af);
+        background: linear-gradient(135deg, #7c3aed, #6d28d9);
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(37,99,235,.3);
+        box-shadow: 0 8px 20px rgba(139,92,246,.3);
         color: white;
     }
 
@@ -96,7 +96,7 @@
                     <div class="mb-4">
                         <div class="info-row d-flex justify-content-between">
                             <span class="text-muted">Total Pembayaran</span>
-                            <strong class="text-primary fs-5">{{ $order->formatted_total }}</strong>
+                            <strong class="fs-5" style="color:#8b5cf6;">{{ $order->formatted_total }}</strong>
                         </div>
                         <div class="info-row d-flex justify-content-between">
                             <span class="text-muted">Status</span>

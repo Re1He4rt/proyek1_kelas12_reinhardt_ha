@@ -53,19 +53,23 @@ class OrderController extends Controller
         }
 
         if ($order->payment && $order->payment_status !== 'paid') {
-            $status = $this->midtransService->checkTransactionStatus($order->order_number);
+            try {
+                $status = $this->midtransService->checkTransactionStatus($order->order_number);
 
-            if ($status && $status['transaction_status']) {
-                $mappedStatus = $this->midtransService->mapPaymentStatus($status['transaction_status']);
+                if ($status && $status['transaction_status']) {
+                    $mappedStatus = $this->midtransService->mapPaymentStatus($status['transaction_status']);
 
-                $order->payment->update([
-                    'transaction_id' => $status['transaction_id'],
-                    'payment_type'   => $status['payment_type'],
-                    'status'         => $status['transaction_status'],
-                    'payload'        => $status,
-                ]);
+                    $order->payment->update([
+                        'transaction_id' => $status['transaction_id'],
+                        'payment_type'   => $status['payment_type'],
+                        'status'         => $status['transaction_status'],
+                        'payload'        => $status,
+                    ]);
 
-                $order->update(['payment_status' => $mappedStatus]);
+                    $order->update(['payment_status' => $mappedStatus]);
+                }
+            } catch (\Exception $e) {
+                \Log::warning("Status check failed for order {$order->order_number}: " . $e->getMessage());
             }
         }
 
@@ -92,8 +96,13 @@ class OrderController extends Controller
         }
 
         if (!$order->snap_token) {
-            $snapToken = $this->midtransService->generateSnapToken($order);
-            $order->update(['snap_token' => $snapToken]);
+            try {
+                $snapToken = $this->midtransService->generateSnapToken($order);
+                $order->update(['snap_token' => $snapToken]);
+            } catch (\Exception $e) {
+                \Log::error("Failed to generate snap token for order {$order->order_number}: " . $e->getMessage());
+                return back()->with('error', 'Gagal memuat halaman pembayaran. Silakan coba lagi.');
+            }
         }
 
         $order->load('payment');
@@ -118,19 +127,23 @@ class OrderController extends Controller
         }
 
         if ($order->payment && $order->payment_status !== 'paid') {
-            $status = $this->midtransService->checkTransactionStatus($order->order_number);
+            try {
+                $status = $this->midtransService->checkTransactionStatus($order->order_number);
 
-            if ($status && $status['transaction_status']) {
-                $mappedStatus = $this->midtransService->mapPaymentStatus($status['transaction_status']);
+                if ($status && $status['transaction_status']) {
+                    $mappedStatus = $this->midtransService->mapPaymentStatus($status['transaction_status']);
 
-                $order->payment->update([
-                    'transaction_id' => $status['transaction_id'],
-                    'payment_type'   => $status['payment_type'],
-                    'status'         => $status['transaction_status'],
-                    'payload'        => $status,
-                ]);
+                    $order->payment->update([
+                        'transaction_id' => $status['transaction_id'],
+                        'payment_type'   => $status['payment_type'],
+                        'status'         => $status['transaction_status'],
+                        'payload'        => $status,
+                    ]);
 
-                $order->update(['payment_status' => $mappedStatus]);
+                    $order->update(['payment_status' => $mappedStatus]);
+                }
+            } catch (\Exception $e) {
+                \Log::warning("Payment finish status check failed for order {$order->order_number}: " . $e->getMessage());
             }
         }
 

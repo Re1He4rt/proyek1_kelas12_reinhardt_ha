@@ -11,7 +11,7 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header bg-warning text-dark">
+            <div class="card-header text-dark" style="background:#fbbf24;">
                 <h5 class="mb-0"><i class="bi bi-pencil"></i> Edit Alamat</h5>
             </div>
             <div class="card-body">

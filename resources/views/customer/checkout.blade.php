@@ -51,13 +51,13 @@
     }
 
     .address-card:hover{
-        border-color:#2563eb;
+        border-color:#8b5cf6;
         transform:translateY(-4px);
     }
 
     .form-check-input:checked{
-        background-color:#2563eb;
-        border-color:#2563eb;
+        background-color:#8b5cf6;
+        border-color:#8b5cf6;
     }
 
     .summary-item{
@@ -121,7 +121,7 @@
                         </div>
 
                         <div>
-                            <span class="badge bg-primary rounded-pill px-3 py-2">
+                            <span class="badge rounded-pill px-3 py-2" style="background:#8b5cf6;color:#fff;">
                                 2
                             </span>
 
@@ -172,7 +172,7 @@
 
                 <div class="card checkout-card">
 
-                    <div class="checkout-header bg-primary text-white">
+                    <div class="checkout-header text-white" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
 
                         <i class="bi bi-geo-alt me-2"></i>
                         Alamat Pengiriman
@@ -246,7 +246,7 @@
 
                             <!-- BUTTON TAMBAH -->
                             <a href="{{ route('customer.addresses.create') }}"
-                               class="btn btn-outline-primary modern-btn">
+                               class="btn modern-btn" style="background:#8b5cf6;color:#fff;">
 
                                 <i class="bi bi-plus-circle me-1"></i>
                                 Tambah Alamat Baru
@@ -264,7 +264,7 @@
                             </div>
 
                             <a href="{{ route('customer.addresses.create') }}"
-                               class="btn btn-primary modern-btn">
+                               class="btn modern-btn" style="background:#8b5cf6;color:#fff;">
 
                                 <i class="bi bi-plus-circle me-1"></i>
                                 Tambah Alamat
@@ -284,7 +284,7 @@
 
                 <div class="card checkout-card">
 
-                    <div class="checkout-header bg-success text-white">
+                    <div class="checkout-header text-white" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);">
 
                         <i class="bi bi-receipt me-2"></i>
                         Ringkasan Pesanan
@@ -357,7 +357,7 @@
                                 Total
                             </h5>
 
-                            <h4 class="text-primary fw-bold mb-0">
+                            <h4 class="fw-bold mb-0" style="color:#8b5cf6;">
 
                                 Rp {{ number_format($cart->total, 0, ',', '.') }}
 
@@ -390,7 +390,7 @@
 
                         <!-- BUTTON -->
                         <button type="submit"
-                                class="btn btn-success modern-btn w-100">
+                                class="btn text-white modern-btn w-100" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);">
 
                             <i class="bi bi-check-circle me-1"></i>
                             Buat Pesanan & Bayar

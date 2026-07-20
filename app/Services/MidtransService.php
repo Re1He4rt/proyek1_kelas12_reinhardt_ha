@@ -25,6 +25,10 @@ class MidtransService
         Config::$isProduction = config('services.midtrans.is_production');
         Config::$isSanitized  = config('services.midtrans.is_sanitized');
         Config::$is3ds        = config('services.midtrans.is_3ds');
+        Config::$curlOptions  = [
+            CURLOPT_TIMEOUT => 15,
+            CURLOPT_CONNECTTIMEOUT => 10,
+        ];
     }
 
     /**
@@ -52,7 +56,12 @@ class MidtransService
             ],
         ];
 
-        $snapToken = Snap::getSnapToken($params);
+        try {
+            $snapToken = Snap::getSnapToken($params);
+        } catch (\Exception $e) {
+            Log::error("Midtrans snap token generation failed for order {$order->order_number}: " . $e->getMessage());
+            throw $e;
+        }
 
         Log::info("Midtrans snap token generated for order {$order->order_number}");
 

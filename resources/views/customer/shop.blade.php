@@ -33,7 +33,7 @@
        HERO SECTION - TEMA BUKU
        ============================= */
     .shop-hero {
-        background: linear-gradient(135deg, #f5f0e8, #e8e0d5);
+        background: linear-gradient(135deg, #f5f3ff, #ede9fe);
         border-radius: 32px;
         overflow: hidden;
         position: relative;
@@ -104,12 +104,13 @@
         border-radius: 16px;
         min-height: 54px;
         font-weight: 600;
-        background: #0f172a;
+        background: #8b5cf6;
         border: none;
+        color: #fff;
     }
 
     .btn-modern:hover {
-        background: #8b5cf6;
+        background: #7c3aed;
     }
 
     /* =============================
@@ -158,14 +159,14 @@
         position: relative;
         width: 100%;
         height: 260px;
-        background: #faf8f5;
+        background: #faf5ff;
         overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 20px;
         flex-shrink: 0;
-        border-bottom: 1px solid #f0ede8;
+        border-bottom: 1px solid #ede9fe;
     }
 
     .product-image {
@@ -190,7 +191,7 @@
         position: absolute;
         top: 16px;
         left: 16px;
-        background: rgba(15, 23, 42, .85);
+        background: rgba(139, 92, 246, .9);
         color: #fff;
         padding: 6px 14px;
         border-radius: 999px;
@@ -248,7 +249,7 @@
     }
 
     .detail-btn:hover {
-        background: #8b5cf6;
+        background: #1e1b4b;
         color: white;
     }
 
@@ -288,7 +289,7 @@
         width: 120px;
         height: 120px;
         border-radius: 50%;
-        background: #f3f0eb;
+        background: #f5f3ff;
         color: #8b5cf6;
         display: flex;
         align-items: center;
@@ -391,7 +392,7 @@
                 <div class="d-flex gap-3 flex-wrap">
 
                     <a href="#products"
-                       class="btn btn-primary btn-lg rounded-pill px-4" style="background: #0f172a; border: none;">
+                       class="btn btn-primary btn-lg rounded-pill px-4" style="background: #8b5cf6; border: none;">
 
                         <i class="bi bi-book-fill me-2"></i>
                         Mulai Membaca

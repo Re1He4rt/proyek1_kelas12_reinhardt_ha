@@ -46,7 +46,7 @@ class CheckoutController extends Controller
             );
 
             return redirect()
-                ->route('customer.orders.show', $order)
+                ->route('customer.orders.pay', $order)
                 ->with('success', 'Order berhasil dibuat! Silakan selesaikan pembayaran.');
 
         } catch (\Exception $e) {

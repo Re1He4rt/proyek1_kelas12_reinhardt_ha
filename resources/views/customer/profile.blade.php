@@ -46,8 +46,8 @@
 
                     <div class="mb-3">
 
-                        <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center"
-                             style="width:90px;height:90px;font-size:36px;">
+                        <div class="text-white rounded-circle d-inline-flex align-items-center justify-content-center"
+                             style="width:90px;height:90px;font-size:36px;background:#8b5cf6;">
 
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
 
@@ -139,7 +139,7 @@
 
                         <!-- BUTTON -->
                         <button type="submit"
-                                class="btn btn-primary rounded-3 px-4 py-2">
+                                class="btn rounded-3 px-4 py-2" style="background:#8b5cf6;color:#fff;">
 
                             <i class="bi bi-save-fill me-2"></i>
                             Simpan Perubahan

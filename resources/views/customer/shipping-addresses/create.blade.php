@@ -11,7 +11,7 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white" style="background:#8b5cf6;">
                 <h5 class="mb-0"><i class="bi bi-plus-circle"></i> Tambah Alamat Baru</h5>
             </div>
             <div class="card-body">
@@ -112,7 +112,7 @@
                         <a href="{{ route('customer.addresses.index') }}" class="btn btn-secondary">
                             <i class="bi bi-arrow-left"></i> Batal
                         </a>
-                        <button type="submit" class="btn btn-primary">
+                        <button type="submit" class="btn" style="background:#8b5cf6;color:#fff;">
                             <i class="bi bi-check-circle"></i> Simpan Alamat
                         </button>
                     </div>

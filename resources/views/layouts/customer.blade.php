@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
 
     <!-- Bootstrap -->
@@ -42,11 +43,11 @@
         }
 
         .nav-link:hover{
-            color:#2563eb !important;
+            color:#8b5cf6 !important;
         }
 
         .nav-active{
-            color:#2563eb !important;
+            color:#8b5cf6 !important;
         }
 
         .nav-active::after{
@@ -56,7 +57,7 @@
             bottom:-6px;
             width:100%;
             height:2px;
-            background:#2563eb;
+            background:#8b5cf6;
             border-radius:20px;
         }
 
@@ -85,7 +86,7 @@
             height:42px;
             border-radius:50%;
             border:none;
-            background:#2563eb;
+            background:#8b5cf6;
             color:white;
             font-size:1rem;
             display:flex;
@@ -95,7 +96,7 @@
         }
 
         .profile-circle:hover{
-            background:#1d4ed8;
+            background:#7c3aed;
             transform:scale(1.05);
         }
 
@@ -195,7 +196,7 @@
 
         /* Media */
         .logo-main{
-            color:#2563eb;
+            color:#8b5cf6;
             position:relative;
         }
 
@@ -216,16 +217,16 @@
             border-radius:999px;
             background:linear-gradient(
                 90deg,
-                #2563eb,
-                #60a5fa
+                #8b5cf6,
+                #a78bfa
             );
         }
 
         /* HOVER GLOW */
         .mediabook-logo:hover .logo-main{
             text-shadow:
-                0 0 10px rgba(37,99,235,.25),
-                0 0 25px rgba(37,99,235,.15);
+                0 0 10px rgba(139,92,246,.25),
+                0 0 25px rgba(139,92,246,.15);
         }
 
         /* MOBILE */
@@ -467,7 +468,7 @@
 
                 <h5 class="fw-bold">
 
-                    <span class="text-primary">
+                    <span style="color:#8b5cf6;">
                         Media
                     </span>Book
 
