@@ -336,6 +336,102 @@
     }
 
     /* =============================
+       QUANTITY SELECTOR (SHOP)
+       ============================= */
+    .shop-qty-box{
+        display:flex;
+        align-items:center;
+        gap:0;
+        border:2px solid #e5e7eb;
+        border-radius:14px;
+        overflow:hidden;
+        background:#fff;
+        height:46px;
+    }
+
+    .shop-qty-btn{
+        width:38px;
+        height:46px;
+        border:none;
+        background:#f3f4f6;
+        color:#374151;
+        font-size:1.1rem;
+        font-weight:700;
+        cursor:pointer;
+        transition:all .2s;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .shop-qty-btn:hover{
+        background:#8b5cf6;
+        color:#fff;
+    }
+
+    .shop-qty-input{
+        width:44px;
+        height:46px;
+        border:none;
+        border-left:1px solid #e5e7eb;
+        border-right:1px solid #e5e7eb;
+        text-align:center;
+        font-size:.95rem;
+        font-weight:700;
+        outline:none;
+        background:#fff;
+    }
+
+    .shop-add-cart-btn{
+        height:46px;
+        width:46px;
+        border:none;
+        border-radius:14px;
+        background:#8b5cf6;
+        color:white;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        transition:all .25s;
+        flex-shrink:0;
+        font-size:1.1rem;
+    }
+
+    .shop-add-cart-btn:hover{
+        background:#7c3aed;
+        transform:translateY(-2px);
+        box-shadow:0 6px 16px rgba(139,92,246,.3);
+    }
+
+    .shop-add-cart-btn:disabled{
+        opacity:.6;
+        transform:none;
+        box-shadow:none;
+    }
+
+    .shop-toast{
+        position:fixed;
+        top:90px;
+        right:24px;
+        z-index:99999;
+        padding:14px 24px;
+        border-radius:14px;
+        font-weight:600;
+        color:#fff;
+        box-shadow:0 10px 30px rgba(0,0,0,.15);
+        transform:translateX(120%);
+        transition:transform .4s cubic-bezier(.68,-.55,.27,1.55);
+    }
+
+    .shop-toast.show{
+        transform:translateX(0);
+    }
+
+    .shop-toast.success{ background:#10b981; }
+    .shop-toast.error{ background:#ef4444; }
+
+    /* =============================
        RESPONSIVE
        ============================= */
     @media (max-width: 768px) {
@@ -347,8 +443,12 @@
             flex-direction: column;
         }
 
-        .cart-btn {
-            width: 100%;
+        .shop-qty-box{
+            width:100%;
+        }
+
+        .shop-add-cart-btn{
+            width:100%;
         }
     }
 
@@ -366,6 +466,9 @@
     }
 
 </style>
+
+<!-- TOAST -->
+<div class="shop-toast" id="shopToast"></div>
 
 <!-- HERO - TEMA BUKU -->
 <section class="mb-5">
@@ -632,15 +735,19 @@
                                        class="detail-btn">
 
                                         <i class="bi bi-eye-fill me-2"></i>
-                                        Detail Buku
+                                        Detail
 
                                     </a>
 
-                                    <!-- CART -->
+                                    <!-- CART WITH QTY -->
                                     @if($product->stock > 0)
 
                                         <form action="{{ route('customer.cart.store') }}"
-                                              method="POST">
+                                              method="POST"
+                                              class="shop-add-cart-form"
+                                              data-product-id="{{ $product->id }}"
+                                              data-product-price="{{ $product->price }}"
+                                              data-max-stock="{{ $product->stock }}">
 
                                             @csrf
 
@@ -648,23 +755,46 @@
                                                    name="product_id"
                                                    value="{{ $product->id }}">
 
-                                            <input type="hidden"
-                                                   name="qty"
-                                                   value="1">
+                                            <div class="d-flex gap-2 align-items-center">
 
-                                            <button type="submit"
-                                                    class="cart-btn">
+                                                <div class="shop-qty-box">
 
-                                                <i class="bi bi-cart-plus-fill"></i>
+                                                    <button type="button"
+                                                            class="shop-qty-btn shop-qty-minus">
+                                                        <i class="bi bi-dash"></i>
+                                                    </button>
 
-                                            </button>
+                                                    <input type="number"
+                                                           name="qty"
+                                                           value="1"
+                                                           min="1"
+                                                           max="{{ $product->stock }}"
+                                                           class="shop-qty-input"
+                                                           readonly>
+
+                                                    <button type="button"
+                                                            class="shop-qty-btn shop-qty-plus">
+                                                        <i class="bi bi-plus"></i>
+                                                    </button>
+
+                                                </div>
+
+                                                <button type="submit"
+                                                        class="shop-add-cart-btn">
+
+                                                    <i class="bi bi-cart-plus-fill"></i>
+
+                                                </button>
+
+                                            </div>
 
                                         </form>
 
                                     @else
 
-                                        <button class="cart-btn bg-secondary"
-                                                disabled>
+                                        <button class="shop-add-cart-btn bg-secondary"
+                                                disabled
+                                                style="flex:0 0 auto;width:46px;">
 
                                             <i class="bi bi-cart-x-fill"></i>
 
@@ -730,4 +860,81 @@
 </section>
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+(function(){
+    const toast = document.getElementById('shopToast');
+    if(!toast) return;
+
+    function showToast(msg, type){
+        toast.textContent = msg;
+        toast.className = 'shop-toast ' + type + ' show';
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    document.querySelectorAll('.shop-qty-minus').forEach(btn => {
+        btn.addEventListener('click', function(){
+            const form = this.closest('form');
+            const input = form.querySelector('.shop-qty-input');
+            let val = parseInt(input.value) || 1;
+            if(val > 1){
+                input.value = val - 1;
+            }
+        });
+    });
+
+    document.querySelectorAll('.shop-qty-plus').forEach(btn => {
+        btn.addEventListener('click', function(){
+            const form = this.closest('form');
+            const input = form.querySelector('.shop-qty-input');
+            const max = parseInt(input.getAttribute('max')) || 100;
+            let val = parseInt(input.value) || 1;
+            if(val < max){
+                input.value = val + 1;
+            }
+        });
+    });
+
+    document.querySelectorAll('.shop-add-cart-form').forEach(form => {
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            const btn = this.querySelector('.shop-add-cart-btn');
+            const input = this.querySelector('.shop-qty-input');
+            const qty = parseInt(input.value) || 1;
+            const productId = this.querySelector('input[name="product_id"]').value;
+            const token = document.querySelector('input[name="_token"]').value;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+            fetch('{{ route("customer.cart.store") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-TOKEN': token,
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'product_id=' + productId + '&qty=' + qty
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.success){
+                    showToast('Ditambahkan ke keranjang!', 'success');
+                } else {
+                    showToast(data.message || 'Gagal menambahkan', 'error');
+                }
+            })
+            .catch(() => {
+                showToast('Terjadi kesalahan', 'error');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-cart-plus-fill"></i>';
+            });
+        });
+    });
+})();
+</script>
 @endsection

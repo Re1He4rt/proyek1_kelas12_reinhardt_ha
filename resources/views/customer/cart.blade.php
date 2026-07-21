@@ -68,6 +68,12 @@
     .item-subtotal{
         font-weight:800;
         color:#7c3aed;
+        transition:all .3s ease;
+    }
+
+    .item-subtotal.animating{
+        transform:scale(1.1);
+        color:#6d28d9;
     }
 
     .qty-box{
@@ -106,22 +112,6 @@
     .qty-btn:hover{
         background:#8b5cf6;
         color:#fff;
-    }
-
-    .btn-update-qty{
-        width:42px;
-        height:42px;
-        border:none;
-        border-radius:12px;
-        background:#8b5cf6;
-        color:white;
-        cursor:pointer;
-        transition:all .2s;
-    }
-
-    .btn-update-qty:hover{
-        background:#7c3aed;
-        transform:scale(1.05);
     }
 
     .btn-delete{
@@ -388,15 +378,17 @@
 
                                         </div>
 
-                                        <button type="button"
-                                                class="btn-update-qty cart-update-btn"
-                                                data-id="{{ $item->id }}"
-                                                title="Update qty">
+                                    </div>
 
-                                            <i class="bi bi-check-lg"></i>
+                                </div>
 
-                                        </button>
+                                <!-- SUBTOTAL -->
+                                <div class="col-md-2 text-end">
 
+                                    <div class="item-subtotal cart-item-subtotal"
+                                         data-id="{{ $item->id }}"
+                                         data-price="{{ $item->product->price }}">
+                                        Rp {{ number_format($item->product->price * $item->qty, 0, ',', '.') }}
                                     </div>
 
                                 </div>
@@ -530,22 +522,68 @@
         document.getElementById('summaryTotalItems').textContent = items;
     }
 
-    function updateItemSubtotal(id, qty, price){
-        const itemEl = document.getElementById('cartItem' + id);
-        if(itemEl){
-            const priceEl = itemEl.querySelector('.price');
-            const unitPrice = parseInt(priceEl.textContent.replace(/[^0-9]/g, ''));
+    function animateSubtotal(el){
+        el.classList.add('animating');
+        setTimeout(() => el.classList.remove('animating'), 300);
+    }
+
+    function syncQty(id, qty){
+        const input = document.querySelector('.cart-qty-input[data-id="' + id + '"]');
+        const price = parseInt(input.dataset.price);
+        const subtotal = price * qty;
+
+        const subEl = document.querySelector('.cart-item-subtotal[data-id="' + id + '"]');
+        if(subEl){
+            subEl.textContent = formatRupiah(subtotal);
+            animateSubtotal(subEl);
         }
     }
 
-    // +/- buttons
+    function sendUpdate(id, qty, input, oldVal){
+        const btn = document.querySelector('.cart-qty-minus[data-id="' + id + '"],.cart-qty-plus[data-id="' + id + '"]');
+
+        fetch('/customer/cart/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRF-TOKEN': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: '_method=PUT&qty=' + qty
+        })
+        .then(res => res.json())
+        .then(data => {
+            if(data.success){
+                syncQty(id, qty);
+                if(data.total !== undefined){
+                    updateSummary(data.total, data.total_items);
+                }
+            } else {
+                input.value = oldVal;
+                showToast(data.message || 'Gagal update', 'error');
+            }
+        })
+        .catch(() => {
+            input.value = oldVal;
+            showToast('Terjadi kesalahan', 'error');
+        });
+    }
+
+    let debounceTimers = {};
+
     document.querySelectorAll('.cart-qty-minus').forEach(btn => {
         btn.addEventListener('click', function(){
             const id = this.dataset.id;
             const input = document.querySelector('.cart-qty-input[data-id="' + id + '"]');
             let val = parseInt(input.value) || 1;
             if(val > 1){
+                const oldVal = val;
                 input.value = val - 1;
+
+                clearTimeout(debounceTimers[id]);
+                debounceTimers[id] = setTimeout(() => {
+                    sendUpdate(id, val - 1, input, oldVal);
+                }, 400);
             }
         });
     });
@@ -557,53 +595,17 @@
             const input = document.querySelector('.cart-qty-input[data-id="' + id + '"]');
             let val = parseInt(input.value) || 1;
             if(val < max){
+                const oldVal = val;
                 input.value = val + 1;
+
+                clearTimeout(debounceTimers[id]);
+                debounceTimers[id] = setTimeout(() => {
+                    sendUpdate(id, val + 1, input, oldVal);
+                }, 400);
             }
         });
     });
 
-    // Update qty via AJAX
-    document.querySelectorAll('.cart-update-btn').forEach(btn => {
-        btn.addEventListener('click', function(){
-            const id = this.dataset.id;
-            const input = document.querySelector('.cart-qty-input[data-id="' + id + '"]');
-            const qty = parseInt(input.value) || 1;
-            const btnEl = this;
-
-            btnEl.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
-            btnEl.disabled = true;
-
-            fetch('/customer/cart/' + id, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRF-TOKEN': csrfToken,
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: '_method=PUT&qty=' + qty
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.success){
-                    showToast('Qty berhasil diupdate!', 'success');
-                    if(data.total !== undefined){
-                        updateSummary(data.total, data.total_items);
-                    }
-                } else {
-                    showToast(data.message || 'Gagal update', 'error');
-                }
-            })
-            .catch(() => {
-                showToast('Terjadi kesalahan', 'error');
-            })
-            .finally(() => {
-                btnEl.innerHTML = '<i class="bi bi-check-lg"></i>';
-                btnEl.disabled = false;
-            });
-        });
-    });
-
-    // Delete item
     document.querySelectorAll('.cart-delete-btn').forEach(btn => {
         btn.addEventListener('click', function(){
             if(!confirm('Hapus "' + this.dataset.name + '" dari keranjang?')) return;
@@ -639,7 +641,6 @@
         });
     });
 
-    // Clear cart
     document.getElementById('clearCartBtn').addEventListener('click', function(){
         if(!confirm('Kosongkan seluruh keranjang?')) return;
 

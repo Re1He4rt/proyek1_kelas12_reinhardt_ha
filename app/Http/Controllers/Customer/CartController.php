@@ -128,12 +128,15 @@ class CartController extends Controller
             $cart->load('cartItems.product');
             $totalItems = $cart->cartItems->sum('qty');
             $total = $cart->total;
+            $itemSubtotal = $cartItem->price * $cartItem->qty;
 
             return response()->json([
                 'success' => true,
                 'message' => 'Jumlah item diupdate!',
                 'total' => $total,
-                'total_items' => $totalItems
+                'total_items' => $totalItems,
+                'item_qty' => $cartItem->qty,
+                'item_subtotal' => $itemSubtotal
             ]);
         }
 
